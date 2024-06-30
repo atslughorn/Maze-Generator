@@ -15,11 +15,11 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <NumberBox x:Name="widthInput" Header="Width" Value="10" Margin="20,20,20,20"/>
-                <NumberBox x:Name="heightInput" Header="Height" Value="10" Margin="20,20,20,20"/>
+                <NumberBox x:Name="widthInput" Value="{x:Bind MazeViewModel.InputWidth, Mode=TwoWay}" Header="Width" Minimum="2" Margin="20,20,20,20" ValueChanged="IntInput_ValueChanged"/>
+                <NumberBox x:Name="heightInput" Value="{x:Bind MazeViewModel.InputHeight, Mode=TwoWay}" Header="Height" Minimum="2" Margin="20,20,20,20" ValueChanged="IntInput_ValueChanged"/>
             </StackPanel>
-            <Button x:Name="generateMazeButton" Click="generateMazeButton_Click" Content="Generate Maze" Height="150" Margin="100,100,100,100" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="515" FontSize="50"/>
+            <Button Click="generateMazeButton_Click" Content="Generate Maze" Height="150" Margin="100,100,100,100" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="515" FontSize="50"/>   
         </StackPanel>
-        <Image x:Name="mazeImage" Loaded="myImage_Loaded" Grid.Column="1" VerticalAlignment="Top"/>
+        <Image x:Name="mazeImage" Loaded="myImage_Loaded" Grid.Column="1" VerticalAlignment="Top" Source="{x:Bind MazeViewModel.ImageSource, Mode=OneWay}"/>
     </Grid>
 </Window>

@@ -17,14 +17,17 @@ namespace Maze_Generator
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        private MazeViewModel MazeViewModel { get; set; }
+
         public MainWindow()
         {
             this.InitializeComponent();
+            MazeViewModel = new();
         }
 
         private void GenerateAndDisplayMaze()
         {
-            var maze = GenerateMazePrims((int)widthInput.Value, (int)heightInput.Value);
+            var maze = GenerateMazePrims(MazeViewModel.InputWidth, MazeViewModel.InputHeight);
             DisplayMaze(maze, mazeImage);
             Debug.WriteLine(maze);
         }
@@ -87,27 +90,40 @@ namespace Maze_Generator
             return walls.Where(wall => maze.InBounds(wall)).ToArray();
         }
 
-        private static void DisplayMaze(Maze maze, Image image)
+        private void DisplayMaze(Maze maze, Image image)
         {
-            WriteableBitmap wbmp = new(maze.RealWidth + 2, maze.RealHeight + 2);
-            //byte[] byteArray = Array.ConvertAll<bool, byte>(maze.grid., b => b ? byte.MinValue : byte.MaxValue);
-
+            WriteableBitmap wbmp = new(maze.BorderedWidth, maze.BorderedHeight);
             maze.GetGridWithBorderAsBytes().CopyTo(wbmp.PixelBuffer);
 
-            //byte[] whitePixel = [byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue];
-            //byte[] blackPixel = [byte.MinValue, byte.MinValue, byte.MinValue, byte.MaxValue];
-
-            //using (var bufferStream = wbmp.PixelBuffer.AsStream())
+            //double ratio;
+            //if (maze.BorderedWidth / image.ActualWidth > maze.BorderedHeight / image.ActualHeight) // Width is the bottleneck
             //{
-            //    foreach (var pixel in maze.grid)
-            //    {
-            //        bufferStream.Write(pixel ? whitePixel : blackPixel, 0, 4);
-            //    }
+            //    ratio = image.ActualWidth / maze.BorderedWidth;
+            //}
+            //else // Height is the bottleneck
+            //{
+            //    ratio = image.ActualHeight / maze.BorderedHeight;
             //}
 
-            image.Source = wbmp;
-            image.Width = maze.RealWidth + 2;
-            image.Height = maze.RealHeight + 2;
+            //BitmapTransform transform = new()
+            //{
+            //    InterpolationMode = BitmapInterpolationMode.NearestNeighbor,
+            //    ScaledHeight = (uint)(maze.BorderedHeight * ratio),
+            //    ScaledWidth = (uint)(maze.BorderedWidth * ratio)
+            //};
+
+
+            MazeViewModel.ImageSource = wbmp;
+            //image.Width = maze.RealWidth + 2;
+            //image.Height = maze.RealHeight + 2;
+        }
+
+        private void IntInput_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue % 1 != 0)
+            {
+                sender.Value = args.OldValue;
+            }
         }
     }
 }

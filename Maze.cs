@@ -20,12 +20,14 @@ namespace Maze_Generator
         public int RealWidth => realWidth;
 
         public int RealHeight => realHeight;
+        public int BorderedWidth => realWidth + 2;
+        public int BorderedHeight => realHeight + 2;
 
         public Maze(int width, int height)
         {
             realWidth = width * 2 - 1;
             realHeight = height * 2 - 1;
-            grid = new bool[realWidth, realHeight];
+            grid = new bool[RealWidth, RealHeight];
         }
 
         public bool this[Coord c]
@@ -36,7 +38,7 @@ namespace Maze_Generator
 
         public bool InBounds(Coord c)
         {
-            return c.X >= 0 && c.X < realWidth && c.Y >= 0 && c.Y < RealHeight;
+            return c.X >= 0 && c.X < RealWidth && c.Y >= 0 && c.Y < RealHeight;
         }
 
         /// <summary>
@@ -48,13 +50,13 @@ namespace Maze_Generator
             byte[] whitePixel = [byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue];
             byte[] blackPixel = [byte.MinValue, byte.MinValue, byte.MinValue, byte.MaxValue];
 
-            byte[] bytes = new byte[(realHeight + 2) * (realHeight + 2) * 4];
+            byte[] bytes = new byte[(BorderedWidth) * (BorderedHeight) * 4];
             using (MemoryStream ms = new(bytes))
             {
                 // Top border
                 ms.Write(blackPixel);
                 ms.Write(whitePixel);
-                for (int i = 0; i < realWidth; i++)
+                for (int i = 0; i < RealWidth; i++)
                 {
                     ms.Write(blackPixel);
                 }
@@ -63,7 +65,7 @@ namespace Maze_Generator
                 for (int l = 0; l < RealHeight; l++)
                 {
                     ms.Write(blackPixel); // Left border
-                    for (int k = 0; k < realWidth; k++)
+                    for (int k = 0; k < RealWidth; k++)
                     {
                         ms.Write(grid[k, l] ? whitePixel : blackPixel);
                     }
@@ -71,7 +73,7 @@ namespace Maze_Generator
                 }
 
                 //Bottom border
-                for (int i = 0; i < realWidth; i++)
+                for (int i = 0; i < RealWidth; i++)
                 {
                     ms.Write(blackPixel);
                 }
