@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Maze Generator (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Maze Generator (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
