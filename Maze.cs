@@ -27,7 +27,8 @@ namespace Maze_Generator
         {
             realWidth = width * 2 - 1;
             realHeight = height * 2 - 1;
-            grid = new bool[RealWidth, RealHeight];
+            // Array for walls and cells, there is some redundancy as some elements are fixed, however this format is very easy to convert to a bitmap
+            grid = new bool[RealWidth, RealHeight]; // Default value is false
         }
 
         public bool this[Coord c]
@@ -42,49 +43,30 @@ namespace Maze_Generator
         }
 
         /// <summary>
-        /// 
+        /// Add a border around the edge of the maze and convert it to pixels
         /// </summary>
-        /// <returns></returns>
-        public byte[] GetGridWithBorderAsBytes()
+        /// <returns>Pixels as an array of bytes</returns>
+        public bool[,] GetGridWithBorder()
         {
-            byte[] whitePixel = [byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue];
-            byte[] blackPixel = [byte.MinValue, byte.MinValue, byte.MinValue, byte.MaxValue];
+            bool[,] newGrid = new bool[BorderedWidth, BorderedHeight];
 
-            byte[] bytes = new byte[(BorderedWidth) * (BorderedHeight) * 4];
-            using (MemoryStream ms = new(bytes))
+            newGrid[1, 0] = true; // Gap for the entrance
+
+            // Body
+            for (int y = 0; y < RealHeight; y++)
             {
-                // Top border
-                ms.Write(blackPixel);
-                ms.Write(whitePixel);
-                for (int i = 0; i < RealWidth; i++)
+                for (int x = 0; x < RealWidth; x++)
                 {
-                    ms.Write(blackPixel);
+                    newGrid[x + 1, y + 1] = grid[x, y];
                 }
-
-                // Body and side borders
-                for (int l = 0; l < RealHeight; l++)
-                {
-                    ms.Write(blackPixel); // Left border
-                    for (int k = 0; k < RealWidth; k++)
-                    {
-                        ms.Write(grid[k, l] ? whitePixel : blackPixel);
-                    }
-                    ms.Write(blackPixel); // Right border
-                }
-
-                //Bottom border
-                for (int i = 0; i < RealWidth; i++)
-                {
-                    ms.Write(blackPixel);
-                }
-                ms.Write(whitePixel);
-                ms.Write(blackPixel);
             }
 
-            return bytes;
+            newGrid[BorderedWidth - 2, BorderedHeight - 1] = true; // Gap for the exit
+
+            return newGrid;
         }
 
-        public override string ToString() {
+        public override string ToString() { // For debugging
             StringBuilder sb = new();
             sb.Append("█ ");
             sb.AppendLine(new string('█', grid.GetLength(0)));

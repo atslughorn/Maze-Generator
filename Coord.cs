@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Maze_Generator
 {
-    public struct Coord(int x, int y)
+    public readonly struct Coord(int x, int y)
     {
         public int X { get; } = x;
         public int Y { get; } = y;
 
-        public readonly Coord GetAbove()
+        public readonly Coord GetAbove() // These methods might seem unneccessary, but they make the code more readable
         {
             return new Coord(X, Y - 1);
         }

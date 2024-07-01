@@ -12,10 +12,9 @@ namespace Maze_Generator
     {
         public int InputWidth { get; set; }
         public int InputHeight { get; set; }
-        private ImageSource imageSource;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private ImageSource imageSource;
         public ImageSource ImageSource {
             get
             {
@@ -23,7 +22,7 @@ namespace Maze_Generator
             }
             set { 
                 imageSource = value;
-                OnPropertyChanged(nameof(ImageSource));
+                OnPropertyChanged(nameof(ImageSource)); // To update the bound Image object
             }
         }
 
