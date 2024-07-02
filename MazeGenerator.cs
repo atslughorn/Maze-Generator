@@ -14,17 +14,22 @@ namespace Maze_Generator
         /// <returns></returns>
         public static Maze GenerateMazePrims(int width, int height)
         {
-            if (width < 2 || height < 2)
+            if (width < 2)
             {
-                throw new ArgumentException("width and height must be at least 2");
+                throw new ArgumentOutOfRangeException(nameof(width), "width must be at least 2");
             }
+            if (height < 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(height), "height must be at least 2");
+            }
+
             Random random = new();
             var maze = new Maze(width, height);
             var topLeft = new Coord(0, 0);
             maze[topLeft] = true; // Mark first cell as visited
             List<Coord> walls = [new Coord(0, 1), new Coord(1, 0)]; // Add first cell's walls
 
-            while (walls.Count > 0)
+            while (walls.Count > 0) // Repeat until all walls have been visited
             {
                 int index = random.Next(walls.Count);
                 var wall = walls[index];

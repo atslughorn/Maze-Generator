@@ -9,11 +9,13 @@ namespace Maze_Generator
         private readonly int realHeight;
 
         /// <summary>
-        /// 
+        /// RealWidth and RealHeight are the dimensions of the array. This includes walls, unlike "width" and "height".
         /// </summary>
         public int RealWidth => realWidth;
-
         public int RealHeight => realHeight;
+        /// <summary>
+        /// BorderedWidth and BorderedHeight are the dimensions of the array returned by GetGridWithBorder
+        /// </summary>
         public int BorderedWidth => realWidth + 2;
         public int BorderedHeight => realHeight + 2;
 
@@ -25,6 +27,11 @@ namespace Maze_Generator
             grid = new bool[RealWidth, RealHeight]; // Default value is false
         }
 
+        /// <summary>
+        /// Allowing Coord to index Maze makes code more readable.
+        /// </summary>
+        /// <param name="c">The Coord object representing the location in the maze. If "c" is not guaranteed to be in range, it should be checked with InBounds.</param>
+        /// <returns></returns>
         public bool this[Coord c]
         {
             get { return grid[c.X, c.Y]; }
@@ -60,8 +67,8 @@ namespace Maze_Generator
             return newGrid;
         }
 
-        public override string ToString()
-        { // For debugging
+        public override string ToString() // For debugging
+        {
             StringBuilder sb = new();
             sb.Append("█ ");
             sb.AppendLine(new string('█', grid.GetLength(0)));
