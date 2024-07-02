@@ -1,10 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Media;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Maze_Generator
 {
@@ -15,18 +10,21 @@ namespace Maze_Generator
         public event PropertyChangedEventHandler PropertyChanged;
 
         private ImageSource imageSource;
-        public ImageSource ImageSource {
+        public ImageSource ImageSource
+        {
             get
             {
                 return imageSource;
             }
-            set { 
+            set
+            {
                 imageSource = value;
                 OnPropertyChanged(nameof(ImageSource)); // To update the bound Image object
             }
         }
 
-        public MazeViewModel() {
+        public MazeViewModel()
+        {
             InputWidth = 100;
             InputHeight = 100;
         }

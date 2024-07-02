@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Graphics.Imaging;
+﻿using System.Text;
 
 namespace Maze_Generator
 {
@@ -34,7 +28,7 @@ namespace Maze_Generator
         public bool this[Coord c]
         {
             get { return grid[c.X, c.Y]; }
-            set {  grid[c.X, c.Y] = value; }
+            set { grid[c.X, c.Y] = value; }
         }
 
         public bool InBounds(Coord c)
@@ -66,7 +60,8 @@ namespace Maze_Generator
             return newGrid;
         }
 
-        public override string ToString() { // For debugging
+        public override string ToString()
+        { // For debugging
             StringBuilder sb = new();
             sb.Append("█ ");
             sb.AppendLine(new string('█', grid.GetLength(0)));

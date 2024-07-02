@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Maze_Generator
+﻿namespace Maze_Generator
 {
+    /// <summary>
+    /// Represents a location in a Maze object
+    /// </summary>
     public readonly struct Coord(int x, int y)
     {
         public int X { get; } = x;

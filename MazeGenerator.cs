@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Maze_Generator
 {
@@ -16,6 +14,10 @@ namespace Maze_Generator
         /// <returns></returns>
         public static Maze GenerateMazePrims(int width, int height)
         {
+            if (width < 2 || height < 2)
+            {
+                throw new ArgumentException("width and height must be at least 2");
+            }
             Random random = new();
             var maze = new Maze(width, height);
             var topLeft = new Coord(0, 0);
